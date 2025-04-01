@@ -103,6 +103,14 @@ func NewWithOptions(options WebViewOptions) WebView {
 	chromium.MessageCallback = w.msgcb
 	chromium.DataPath = options.DataPath
 	chromium.SetPermission(edge.CoreWebView2PermissionKindClipboardRead, edge.CoreWebView2PermissionStateAllow)
+	// 背景色を透明にする
+	// https://learn.microsoft.com/en-us/microsoft-edge/webview2/how-to/transparent-background
+	chromium.GetController().GetICoreWebView2Controller2().PutDefaultBackgroundColor(edge.COREWEBVIEW2_COLOR{
+		A: 0,
+		R: 0,
+		G: 0,
+		B: 0,
+	})
 
 	w.browser = chromium
 	w.mainthread, _, _ = w32.Kernel32GetCurrentThreadID.Call()
